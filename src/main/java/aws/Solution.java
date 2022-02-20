@@ -6,6 +6,16 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Queue;
 
+// Time complexity: O(r * c).
+// Space complexity: O(r * c).
+// Uses a breath first search with a queue of servers (each cell that contains a server, which is 1).
+// At first, the queue is initialized and the number of cells where a file is missing is counted.
+// If no cell is missing a file (the count is zero) just returns zero.
+// Otherwise, calculate the number of hours by removing each server from the queue and navigating
+// to the allowed directions checking if they are empty, in case of empty, decrease the counter of
+// files, checks if is zero, in case it is zero, return the number of hours, in case not, update the cell
+// and add it to the queue of servers.
+
 public class Solution {
 
 

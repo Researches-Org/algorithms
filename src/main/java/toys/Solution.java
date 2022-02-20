@@ -10,6 +10,13 @@ import java.util.Map;
 import java.util.PriorityQueue;
 import java.util.Set;
 
+// Time complexity is O(M + N (log K)) where N is the number of Toys, K is the number of top toys and M is number of quotes.
+// Uses a PriorityQueue as a min heap and keep only the top toys in the priority queue.
+// In case top toys is greater than number of toys, all toys that were mentioned are returned.
+// Finally, the toys in priority queue is in reversed order so it is necessary to reverse the
+// output collections before returning it.
+
+
 public class Solution {
 
     public static void main(String[] args) {
@@ -35,14 +42,17 @@ public class Solution {
                         })));
     }
 
-    public ArrayList<String> popularNToys(int numToys, int topToys, List<String> toys, int numQuotes,
-                                         List<String> quotes) {
+    public ArrayList<String> popularNToys(int numToys, int topToys,
+                                          List<String> toys, int numQuotes,
+                                          List<String> quotes) {
 
+        // map of frequencies
         Map<String, int[]> frequencies = new HashMap<>();
         for (String toy : toys) {
             frequencies.put(toy, new int[]{0, 0});
         }
 
+        // update O(quoytes)
         for (String quote : quotes) {
             Set<String> alreadyUsed = new HashSet<>();
 
@@ -55,6 +65,7 @@ public class Solution {
                 int[] numbers = frequencies.get(w);
 
                 numbers[0]++;
+
                 if (!alreadyUsed.contains(w)) {
                     numbers[1]++;
                 }
@@ -64,6 +75,7 @@ public class Solution {
         }
 
         PriorityQueue<String> pq = new PriorityQueue<>((a, b) -> {
+
             if (frequencies.get(a)[0] != frequencies.get(b)[0]) {
                 return frequencies.get(a)[0] - frequencies.get(b)[0];
             }
@@ -73,6 +85,7 @@ public class Solution {
             }
 
             return b.compareTo(a);
+
         });
 
         if (topToys > numToys) {
@@ -95,9 +108,10 @@ public class Solution {
         while (!pq.isEmpty()) {
             output.add(pq.poll());
         }
-
         Collections.reverse(output);
-
         return output;
+
     }
+
 }
+
